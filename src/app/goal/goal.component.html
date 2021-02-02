@@ -22,3 +22,9 @@
   
     <p *ngIf='goals.length > 5'>You have too many goals</p>
   </div>
+  <div class="row" *ngIf ='quote'>
+    <blockquote class="blockquote text-center" style="text-align: center;">
+      <p class="mb-0">{{quote.quote}}</p>
+      <footer class="blockquote-footer"><cite>{{quote.author}}</cite></footer>
+    </blockquote>
+  </div>
