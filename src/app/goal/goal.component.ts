@@ -4,6 +4,10 @@ import { Goal } from '../goal'
 import { AlertService } from '../alert-service/alert.service';
 import { Quote } from '../quote-class/quote';
 import { HttpClient } from '@angular/common/http';
+import { QuoteRequestService } from '../quote-http/quote-request.service'
+import { from } from 'rxjs';
+
+
 @Component({
   selector: 'app-goal',
   templateUrl: './goal.component.html',
@@ -33,21 +37,17 @@ export class GoalComponent implements OnInit {
     goal.completeDate = new Date(goal.completeDate)
     this.goals.push(goal)
   }
-  constructor(goalService:GoalService, alertService:AlertService, private http:HttpClient) { 
+  constructor(goalService:GoalService, alertService:AlertService, private quoteService:QuoteRequestService) { 
     this.goals = goalService.getGoals()
     this.alertService = alertService;
   }
 
-  ngOnInit(): void {
-    interface ApiResponse{
-      author:string;
-      quote:string;
+  ngOnInit() {
+   this.quoteService.quoteRequest()
+   this.quote = this.quoteService.quote;
     }
-    this.http.get<ApiResponse>("http://quotes.stormconsultancy.co.uk/random.json").subscribe(data=>{
-      // Succesful API request
-      this.quote = new Quote(data.author, data.quote)
-    })
+  
 
   }
 
-}
+
